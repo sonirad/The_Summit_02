@@ -298,10 +298,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   walkingSpeed: 500
   runningSpeed: 1000
-  jumpForce: {x: 10, y: 20}
+  jumpForce: {x: 8, y: 10}
   jumpCount: 0
   isGround: 1
   rigidbody2d: {fileID: 0}
+  ani: {fileID: 0}
   playerInput: {fileID: 0}
 --- !u!114 &1668360801
 MonoBehaviour:

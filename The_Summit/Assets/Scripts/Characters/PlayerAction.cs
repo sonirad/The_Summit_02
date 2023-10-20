@@ -18,11 +18,13 @@ public class PlayerAction : MonoBehaviour
     private float course = 1f;
 
     [SerializeField] private Rigidbody2D rigidbody2d;
+    [SerializeField] private Animator ani;
     [SerializeField] private PlayerInput playerInput;
 
     void Start()
     {
         rigidbody2d = GetComponent<Rigidbody2D>();
+        ani = GetComponent<Animator>();
         playerInput = GetComponent<PlayerInput>();
     }
 
@@ -105,6 +107,8 @@ public class PlayerAction : MonoBehaviour
     {
         if (AvailableStanding)
         {
+            ani.SetFloat("Course", course);
+            ani.SetTrigger("Standing");
             rigidbody2d.velocity = Vector2.zero;
             Debug.Log("½ºÅÄµù");
         }
@@ -118,12 +122,16 @@ public class PlayerAction : MonoBehaviour
         if (AvailableWalk && playerInput.walkRight && !playerInput.run)
         {
             course = 1f;
+            ani.SetFloat("Course", course);
+            ani.SetTrigger("Walking");
             rigidbody2d.velocity = Vector2.right * walkingSpeed * Time.deltaTime;
             Debug.Log("¿À¸¥ÂÊ °È±â");
         }
         else if (AvailableWalk && playerInput.walkLeft && !playerInput.run)
         {
             course = -1f;
+            ani.SetFloat("Course", course);
+            ani.SetTrigger("Walking");
             rigidbody2d.velocity = Vector2.left * walkingSpeed * Time.deltaTime;
             Debug.Log("¿ÞÂÊ °È±â");
         }
@@ -141,12 +149,16 @@ public class PlayerAction : MonoBehaviour
             if (playerInput.walkRight)
             {
                 course = 1f;
+                ani.SetFloat("Course", course);
+                ani.SetTrigger("Running");
                 rigidbody2d.velocity = Vector2.right * runningSpeed * Time.deltaTime;
                 Debug.Log("¿À¸¥ÂÊ ¶Ù±â");
             }
             else if (playerInput.walkLeft)
             {
                 course = -1f;
+                ani.SetFloat("Course", course);
+                ani.SetTrigger("Running");
                 rigidbody2d.velocity = Vector2.left * runningSpeed * Time.deltaTime;
                 Debug.Log("¿ÞÂÊ ¶Ù±â");
             }
