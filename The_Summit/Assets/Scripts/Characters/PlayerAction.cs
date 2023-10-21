@@ -15,7 +15,7 @@ public class PlayerAction : MonoBehaviour
     [Tooltip("지면 검사")]
     [SerializeField] private bool isGround = true;
     [Tooltip("방향")]
-    private float course = 1f;
+    [HideInInspector] public float course = 1f;
 
     [SerializeField] private Rigidbody2D rigidbody2d;
     [SerializeField] private Animator ani;
