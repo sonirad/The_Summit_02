@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class PlayerAction : MonoBehaviour
 {
@@ -9,7 +10,8 @@ public class PlayerAction : MonoBehaviour
     [Tooltip("뛰는 속도")]
     [SerializeField] private float runningSpeed;
     [Tooltip("점프 힘")]
-    [SerializeField] private Vector2 jumpForce;
+    [SerializeField] private float jumpForce;
+    // [SerializeField] private float jumpForce;
     [Tooltip("점프 카운트")]
     [SerializeField] private int jumpCount = 0;
     [Tooltip("지면 검사")]
@@ -28,7 +30,7 @@ public class PlayerAction : MonoBehaviour
         playerInput = GetComponent<PlayerInput>();
     }
 
-    void Update()
+    private void FixedUpdate()
     {
         IsGround();
         IsStanding();
@@ -44,7 +46,7 @@ public class PlayerAction : MonoBehaviour
     {
         get
         {
-            return Physics2D.Raycast(transform.position, Vector2.down, 2f, 1 << LayerMask.NameToLayer("Ground"));
+            return Physics2D.Raycast(transform.position, Vector2.down, 0.5f, 1 << LayerMask.NameToLayer("Ground"));
         }
     }
 
@@ -174,6 +176,7 @@ public class PlayerAction : MonoBehaviour
         {
             ++jumpCount;
             rigidbody2d.AddForce(jumpForce * Vector2.up, ForceMode2D.Impulse);
+            Debug.Log(rigidbody2d.velocity.y);
             Debug.Log("점프");
         }
 

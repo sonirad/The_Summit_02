@@ -27,7 +27,6 @@ public class MainUI : MonoBehaviour
     private void MainUI_InputKey()
     {
         mainUIKey = Input.GetKeyDown(KeyCode.Escape);
-        Debug.Log("Esc");
     }
 
     /// <summary>

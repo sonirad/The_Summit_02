@@ -983,7 +983,7 @@ Transform:
   m_GameObject: {fileID: 1668360795}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -2.45, z: 0}
+  m_LocalPosition: {x: -0.959, y: -3.863, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1021,18 +1021,18 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.1319522, y: -1.088488}
+  m_Offset: {x: 0.038474172, y: -0.25377905}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 4, y: 4}
+    oldSize: {x: 1, y: 1}
     newSize: {x: 4, y: 4}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.7016272, y: 1.6416085}
+  m_Size: {x: 0.1452105, y: 0.43859076}
   m_EdgeRadius: 0
 --- !u!50 &1668360799
 Rigidbody2D:
@@ -1049,7 +1049,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 5
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -1073,9 +1073,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bec83922d6b8dd744b96711f9231b049, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkingSpeed: 500
-  runningSpeed: 1000
-  jumpForce: {x: 8, y: 10}
+  walkingSpeed: 160
+  runningSpeed: 200
+  jumpForce: 5
   jumpCount: 0
   isGround: 1
   course: 1
