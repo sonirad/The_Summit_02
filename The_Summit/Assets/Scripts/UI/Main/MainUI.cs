@@ -12,7 +12,14 @@ public class MainUI : MonoBehaviour
     [SerializeField] private GameObject mainUIObject;
     [Tooltip("플레이어 목숨 갯수 표시 텍스트")]
     [SerializeField] private TMP_Text lifeCountText;
+    [SerializeField] private int lifeCountUINum;
     [SerializeField] private PlayerLife playerLife;
+
+    private void Awake()
+    {
+        lifeCountText.text = " x" + PlayerLife.lifeCount;
+        lifeCountUINum = PlayerLife.lifeCount;
+    }
 
     private void Update()
     {
@@ -61,14 +68,15 @@ public class MainUI : MonoBehaviour
 
     /// <summary>
     /// 플레이어 데미지를 입거나 사망했을때 라이프 갯수 UI 업데이트.
+    /// 현재 조건이 충족이 안되서 화면에 출력이 안됨.
     /// </summary>
     private void UpdateLifeCountUI()
     {
-        if (playerLife.isDamage || playerLife.isDeath)
+        if (PlayerLife.lifeCount != lifeCountUINum)
         {
-            lifeCountText.text = " x" + PlayerLife.lifeCount;
-            playerLife.isDamage = false;
-            playerLife.isDeath = false;
+            Debug.Log(PlayerLife.lifeCount);
+            lifeCountUINum = PlayerLife.lifeCount;
+            lifeCountText.text = " x" + lifeCountUINum;
         }
     }
 }

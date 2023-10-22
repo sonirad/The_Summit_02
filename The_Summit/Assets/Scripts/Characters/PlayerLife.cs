@@ -20,17 +20,20 @@ public class PlayerLife : MonoBehaviour
     [SerializeField] private float deathAnimationDelayTime;
     [Tooltip("현재 플레이어 목숨 갯수")]
     public static int lifeCount;
-    [Tooltip("데미지를 입었을때 나타나는 효과 알파값")]
+    [Tooltip("데미지를 입었을때 나타나는 빨강 효과")]
     [SerializeField] private Color damageAlphaValue;
     [Tooltip("게임오버 일러스트")]
     [SerializeField] private Image gameOverImage;
 
     [Tooltip("데미지 입음")]
-    public bool isDamage;
+    public bool isDamage = false;
     [Tooltip("사망 상태")]
-    public bool isDeath;
+    public bool isDeath = false;
 
-    void Start()
+    [Tooltip("게임오버 일러스트에서 벗어나기 위한 키 입력 받는 변수")]
+    private bool anyKey;
+
+    void Awake()
     {
         playerInput = GetComponent<PlayerInput>();
         playerAction = GetComponent<PlayerAction>();
@@ -38,11 +41,17 @@ public class PlayerLife : MonoBehaviour
         animator = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
 
-        lifeCount = maxLifeCount;   // 지정한 
+        lifeCount = maxLifeCount;   // 지정한 목숨 최대 갯수 초기화
+    }
+
+    private void Update()
+    {
+        anyKey = Input.anyKeyDown;
     }
 
     /// <summary>
     /// 데미지를 입었을때 lifeCount를 차감하고 데미지 받은 이펙트를 실행할 코루틴 함수.
+    /// 데미지를 받으면 캐릭터 색이 빨강이 됨.
     /// </summary>
     public IEnumerator Damage()
     {
@@ -50,9 +59,9 @@ public class PlayerLife : MonoBehaviour
         --lifeCount;
         Debug.Log(lifeCount);
         
-        for(int i = 0; i < 4; i++)
+        for(int i = 0; i < 2; i++)
         {
-            if (spriteRenderer.color.a != damageAlphaValue.a)
+            if (spriteRenderer.color != damageAlphaValue)
             {
                 spriteRenderer.color = damageAlphaValue;
             }
@@ -62,7 +71,7 @@ public class PlayerLife : MonoBehaviour
                 spriteRenderer.color = new Color(1f, 1f, 1f, 1f);
             }
 
-            yield return new WaitForSecondsRealtime(dmageBlinkTime);
+            yield return new WaitForSeconds(dmageBlinkTime);
         }
     }
 
@@ -71,19 +80,29 @@ public class PlayerLife : MonoBehaviour
     /// </summary>
     public IEnumerator Death()
     {
-        isDeath = true;
         playerInput.enabled = false;
-        this.transform.position = Vector2.zero;
+        playerAction.rigidbody2d.position = Vector2.zero;
+        playerAction.rigidbody2d.velocity = Vector2.zero;
         animator.SetFloat("Course", playerAction.course);
         animator.SetTrigger("Death");
         Debug.Log("사망");
 
-        yield return new WaitForSecondsRealtime(deathAnimationDelayTime);
+        yield return new WaitForSeconds(deathAnimationDelayTime);
 
         gameOverImage.gameObject.SetActive(true);
 
-        yield return new WaitForSecondsRealtime(deathAnimationDelayTime);
+        yield return new WaitForSeconds(deathAnimationDelayTime);
 
+        Debug.Log("아무키");
+
+        yield return new WaitUntil(() => anyKey);
+        Debug.Log("재시작");
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+
+        //if (Input.anyKey)
+        //{
+        //    Debug.Log("재시작");
+        //    SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        //}
     }
 }

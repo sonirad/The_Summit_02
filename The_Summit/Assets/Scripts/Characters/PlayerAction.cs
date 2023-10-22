@@ -19,7 +19,7 @@ public class PlayerAction : MonoBehaviour
     [Tooltip("방향")]
     [HideInInspector] public float course = 1f;
 
-    [SerializeField] private Rigidbody2D rigidbody2d;
+    public Rigidbody2D rigidbody2d;
     [SerializeField] private Animator ani;
     [SerializeField] private PlayerInput playerInput;
 
@@ -176,7 +176,6 @@ public class PlayerAction : MonoBehaviour
         {
             ++jumpCount;
             rigidbody2d.AddForce(jumpForce * Vector2.up, ForceMode2D.Impulse);
-            Debug.Log(rigidbody2d.velocity.y);
             Debug.Log("점프");
         }
 
