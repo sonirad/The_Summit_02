@@ -126,7 +126,7 @@ public class PlayerAction : MonoBehaviour
             course = 1f;
             ani.SetFloat("Course", course);
             ani.SetTrigger("Walking");
-            rigidbody2d.velocity = Vector2.right * walkingSpeed * Time.deltaTime;
+            rigidbody2d.velocity = Vector2.right * walkingSpeed;
             Debug.Log("¿À¸¥ÂÊ °È±â");
         }
         else if (AvailableWalk && playerInput.walkLeft && !playerInput.run)
@@ -134,7 +134,7 @@ public class PlayerAction : MonoBehaviour
             course = -1f;
             ani.SetFloat("Course", course);
             ani.SetTrigger("Walking");
-            rigidbody2d.velocity = Vector2.left * walkingSpeed * Time.deltaTime;
+            rigidbody2d.velocity = Vector2.left * walkingSpeed;
             Debug.Log("¿ÞÂÊ °È±â");
         }
     }
@@ -153,7 +153,7 @@ public class PlayerAction : MonoBehaviour
                 course = 1f;
                 ani.SetFloat("Course", course);
                 ani.SetTrigger("Running");
-                rigidbody2d.velocity = Vector2.right * runningSpeed * Time.deltaTime;
+                rigidbody2d.velocity = Vector2.right * runningSpeed;
                 Debug.Log("¿À¸¥ÂÊ ¶Ù±â");
             }
             else if (playerInput.walkLeft)
@@ -161,7 +161,7 @@ public class PlayerAction : MonoBehaviour
                 course = -1f;
                 ani.SetFloat("Course", course);
                 ani.SetTrigger("Running");
-                rigidbody2d.velocity = Vector2.left * runningSpeed * Time.deltaTime;
+                rigidbody2d.velocity = Vector2.left * runningSpeed;
                 Debug.Log("¿ÞÂÊ ¶Ù±â");
             }
         }
