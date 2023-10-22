@@ -90,7 +90,7 @@ public class PlayerAction : MonoBehaviour
     {
         get
         {
-            return playerInput.jump && jumpCount < 2;
+            return playerInput.jump && jumpCount < 1;
         }
     }
 
