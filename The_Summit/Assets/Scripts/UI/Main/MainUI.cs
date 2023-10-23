@@ -4,21 +4,22 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
+using Unity.VisualScripting;
 
 public class MainUI : MonoBehaviour
 {
-    public bool mainUIKey { get; private set; }
     [Tooltip("메인씬 UI 메뉴창 오브젝트")]
     [SerializeField] private GameObject mainUIObject;
     [Tooltip("플레이어 목숨 갯수 표시 텍스트")]
     [SerializeField] private TMP_Text lifeCountText;
-    [SerializeField] private int lifeCountUINum;
-    [SerializeField] private PlayerLife playerLife;
+    [Tooltip("현재 화면에 출력되고 있는 lifeCount UI의 값.")]
+    private int lifeCountUINum;
+    [HideInInspector] public bool mainUIKey { get; private set; }
 
     private void Awake()
     {
         lifeCountText.text = " x" + PlayerLife.lifeCount;
-        lifeCountUINum = PlayerLife.lifeCount;
+        lifeCountUINum = PlayerLife.lifeCount;  // 라이프 카운트 UI 업데이트를 위한 초기화.
     }
 
     private void Update()
@@ -50,33 +51,42 @@ public class MainUI : MonoBehaviour
     }
 
     /// <summary>
-    /// 타이틀 씬으로 가기
+    /// 타이틀 씬으로 이동
     /// </summary>
     public void ReturnToTile()
     {
+        Debug.Log("타이틀 씬으로 이동");
         SceneManager.LoadScene(0);
     }
 
     /// <summary>
-    /// 게임으로 다시 돌아가기
+    /// 게임으로 다시 돌아가기. 게임 계속 진행
     /// </summary>
     public void ReturnToGame()
     {
         mainUIObject.SetActive(false);
         Time.timeScale = 1;
+        Debug.Log("게임 계속 진행");
     }
 
     /// <summary>
-    /// 플레이어 데미지를 입거나 사망했을때 라이프 갯수 UI 업데이트.
-    /// 현재 조건이 충족이 안되서 화면에 출력이 안됨.
+    /// 플레이어 lifeCount의 값이 현재 화면에 출력되고 있는 값(lifeCountUINum)과
+    /// 비교하여 달라졌을때 lifeCountUINum 값 업데이트.
+    /// switch 문으로도 가능 할듯? 조건은 case 1에 값이 같으면 break,
+    /// 그 외의 조건 = 값이 다르면 = difault 에 if 에 있는거 실행.
     /// </summary>
     private void UpdateLifeCountUI()
     {
         if (PlayerLife.lifeCount != lifeCountUINum)
         {
-            Debug.Log(PlayerLife.lifeCount);
             lifeCountUINum = PlayerLife.lifeCount;
             lifeCountText.text = " x" + lifeCountUINum;
+            Debug.Log("현재 라이프 카운트 : " + PlayerLife.lifeCount);
+        }
+
+        else
+        {
+            Debug.Log("현재 lifeCount 값은 같다.");
         }
     }
 }

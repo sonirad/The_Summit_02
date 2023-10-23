@@ -1018,9 +1018,9 @@ MonoBehaviour:
   maxLifeCount: 3
   dmageBlinkTime: 0.5
   deathAnimationDelayTime: 3
-  damageAlphaValue: {r: 1, g: 0, b: 0, a: 1}
+  damageRedValue: {r: 1, g: 0, b: 0, a: 1}
   gameOverImage: {fileID: 18649369}
-  isDamage: 1
+  isDamage: 0
   isDeath: 0
 --- !u!114 &1702220487
 MonoBehaviour:
@@ -1227,7 +1227,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae3f4bd36e2758148b5085528457ef28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageInputDelayTime: 5
+  playerLife: {fileID: 0}
 --- !u!1 &1830860996
 GameObject:
   m_ObjectHideFlags: 0
@@ -1347,8 +1347,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainUIObject: {fileID: 1141717569}
   lifeCountText: {fileID: 1107140720}
-  lifeCountUINum: 0
-  playerLife: {fileID: 1702220486}
 --- !u!1 &1878932784
 GameObject:
   m_ObjectHideFlags: 0

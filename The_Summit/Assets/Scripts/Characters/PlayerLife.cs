@@ -21,7 +21,7 @@ public class PlayerLife : MonoBehaviour
     [Tooltip("현재 플레이어 목숨 갯수")]
     public static int lifeCount;
     [Tooltip("데미지를 입었을때 나타나는 빨강 효과")]
-    [SerializeField] private Color damageAlphaValue;
+    [SerializeField] private Color damageRedValue;
     [Tooltip("게임오버 일러스트")]
     [SerializeField] private Image gameOverImage;
 
@@ -46,24 +46,24 @@ public class PlayerLife : MonoBehaviour
 
     private void Update()
     {
-        anyKey = Input.anyKeyDown;
+        anyKey = Input.anyKeyDown;    // 게임 오버 시 재시작 신호 키보드 키
     }
 
     /// <summary>
-    /// 데미지를 입었을때 lifeCount를 차감하고 데미지 받은 이펙트를 실행할 코루틴 함수.
+    /// 데미지를 입었을때 lifeCount를 차감하고 데미지 받은 이펙트를 실행하는 코루틴 함수.
     /// 데미지를 받으면 캐릭터 색이 빨강이 됨.
     /// </summary>
     public IEnumerator Damage()
     {
         isDamage = true;
         --lifeCount;
-        Debug.Log(lifeCount);
+        Debug.Log("데미지 발생. 라이프 -1 차감");
         
         for(int i = 0; i < 2; i++)
         {
-            if (spriteRenderer.color != damageAlphaValue)
+            if (spriteRenderer.color != damageRedValue)
             {
-                spriteRenderer.color = damageAlphaValue;
+                spriteRenderer.color = damageRedValue;
             }
 
             else
@@ -71,38 +71,30 @@ public class PlayerLife : MonoBehaviour
                 spriteRenderer.color = new Color(1f, 1f, 1f, 1f);
             }
 
+            Debug.Log("데미지 이펙트 딜레이 타임");
             yield return new WaitForSeconds(dmageBlinkTime);
         }
     }
 
     /// <summary>
     /// 사망이 발생했을때 각종 사망에 따른 효과를 실행하는 코루틴 함수.
+    /// 사망했을때 플레이어 input을 받고, 캐릭터가 움직이는 기능이 아직 구현이 안됨.
+    /// 그리고 사망했을때 갑자기 캐릭터가 오른쪽으로 날아가는 버그가 존재. 리지드바디 velocity 와 position의 x 값이 동결이 안됨.
     /// </summary>
     public IEnumerator Death()
     {
+        Debug.Log("사망");
         playerInput.enabled = false;
-        playerAction.rigidbody2d.position = Vector2.zero;
-        playerAction.rigidbody2d.velocity = Vector2.zero;
         animator.SetFloat("Course", playerAction.course);
         animator.SetTrigger("Death");
-        Debug.Log("사망");
 
         yield return new WaitForSeconds(deathAnimationDelayTime);
 
         gameOverImage.gameObject.SetActive(true);
-
-        yield return new WaitForSeconds(deathAnimationDelayTime);
-
         Debug.Log("아무키");
 
         yield return new WaitUntil(() => anyKey);
         Debug.Log("재시작");
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-
-        //if (Input.anyKey)
-        //{
-        //    Debug.Log("재시작");
-        //    SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        //}
     }
 }

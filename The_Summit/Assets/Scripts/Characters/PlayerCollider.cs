@@ -5,9 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class PlayerCollider : MonoBehaviour
 {
-    private PlayerLife playerLife;
-    [Tooltip("다음 데미지가 들어가기까지의 딜레이 시간")]
-    [SerializeField] private float damageInputDelayTime;
+    [SerializeField] private PlayerLife playerLife;
 
     private void Start()
     {
@@ -16,7 +14,6 @@ public class PlayerCollider : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // StartCoroutine(AvailableDamangeAndDeath(collision));
         AvailableDamangeAndDeath(collision);
         GameClear(collision);
     }
@@ -32,17 +29,15 @@ public class PlayerCollider : MonoBehaviour
     {
         if (ob.gameObject.layer == 7)
         {
-            Debug.Log("데미지");
+            Debug.Log("장애물");
             StartCoroutine(playerLife.Damage());
             playerLife.isDamage = false;
 
             if (PlayerLife.lifeCount <= 0)
             {
-                Debug.Log("사망");
+                Debug.Log("사망 판정");
                 StartCoroutine(playerLife.Death());
             }
-
-            // yield return new WaitForSeconds(damageInputDelayTime);
         }
     }
 
