@@ -8,6 +8,7 @@ public class PlayerLife : MonoBehaviour
 {
     [SerializeField] private PlayerInput playerInput;
     [SerializeField] private PlayerAction playerAction;
+    [SerializeField] private Rigidbody2D rigi2d;
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private Animator animator;
     [SerializeField] private AudioSource audioSource;
@@ -40,6 +41,7 @@ public class PlayerLife : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
+        rigi2d = GetComponent<Rigidbody2D>();
 
         lifeCount = maxLifeCount;   // 지정한 목숨 최대 갯수 초기화
     }
@@ -47,6 +49,7 @@ public class PlayerLife : MonoBehaviour
     private void Update()
     {
         anyKey = Input.anyKeyDown;    // 게임 오버 시 재시작 신호 키보드 키
+        PlayerDeathMoveStop();
     }
 
     /// <summary>
@@ -86,7 +89,9 @@ public class PlayerLife : MonoBehaviour
     public IEnumerator Death()
     {
         Debug.Log("사망");
+        isDeath = true;
         playerInput.enabled = false;
+        playerAction.enabled = false;
         animator.SetFloat("Course", playerAction.course);
         animator.SetTrigger("Death");
 
@@ -98,5 +103,14 @@ public class PlayerLife : MonoBehaviour
         yield return new WaitUntil(() => anyKey);
         Debug.Log("재시작");
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    private void PlayerDeathMoveStop()
+    {
+        if (isDeath)
+        {
+            rigi2d.velocity = Vector2.zero;
+            Debug.Log("사망 캐릭터 멈춤");
+        }
     }
 }
