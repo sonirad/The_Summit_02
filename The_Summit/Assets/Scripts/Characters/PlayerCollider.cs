@@ -31,7 +31,6 @@ public class PlayerCollider : MonoBehaviour
         {
             Debug.Log("Àå¾Ö¹°");
             StartCoroutine(playerLife.Damage());
-            playerLife.isDamage = false;
 
             if (PlayerLife.lifeCount <= 0)
             {

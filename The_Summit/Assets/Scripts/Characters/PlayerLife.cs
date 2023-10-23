@@ -74,6 +74,8 @@ public class PlayerLife : MonoBehaviour
             Debug.Log("데미지 이펙트 딜레이 타임");
             yield return new WaitForSeconds(dmageBlinkTime);
         }
+
+        isDamage = false;
     }
 
     /// <summary>
