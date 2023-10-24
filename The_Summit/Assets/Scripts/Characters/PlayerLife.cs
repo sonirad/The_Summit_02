@@ -6,11 +6,11 @@ using UnityEngine.SceneManagement;
 
 public class PlayerLife : MonoBehaviour
 {
+    [SerializeField] private PlayerInput playerInput;
     [SerializeField] private PlayerAction playerAction;
     [SerializeField] private Rigidbody2D rigi2d;
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private Animator animator;
-    [SerializeField] private AudioSource audioSource;
 
     [Tooltip("플레이어 최대 목숨 갯수")]
     [SerializeField] private int maxLifeCount;
@@ -31,14 +31,16 @@ public class PlayerLife : MonoBehaviour
     public bool isDeath = false;
 
     [Tooltip("게임오버 일러스트에서 벗어나기 위한 키 입력 받는 변수")]
-    private bool anyKey;
+    private bool gameOverAnyKey;
+    private bool gameOverAnyMouseKey_R;
+    private bool gameOverAnyMouseKey_L;
 
     void Awake()
     {
+        playerInput = GetComponent<PlayerInput>();
         playerAction = GetComponent<PlayerAction>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
-        audioSource = GetComponent<AudioSource>();
         rigi2d = GetComponent<Rigidbody2D>();
 
         lifeCount = maxLifeCount;   // 지정한 목숨 최대 갯수 초기화
@@ -46,7 +48,9 @@ public class PlayerLife : MonoBehaviour
 
     private void Update()
     {
-        anyKey = Input.anyKeyDown;    // 게임 오버 시 재시작 신호 키보드 키
+        gameOverAnyKey = Input.anyKeyDown;    // 게임 오버 시 재시작 신호 키보드 키
+        gameOverAnyMouseKey_R= Input.GetMouseButtonDown(1);  // 게임 오버 시 재시작 신호 마우스 키
+        gameOverAnyMouseKey_L = Input.GetMouseButtonDown(0);  // 게임 오버 시 재시작 신호 마우스 키
         PlayerDeathMoveStop();
     }
 
@@ -81,13 +85,12 @@ public class PlayerLife : MonoBehaviour
 
     /// <summary>
     /// 사망이 발생했을때 각종 사망에 따른 효과를 실행하는 코루틴 함수.
-    /// 사망했을때 플레이어 input을 받고, 캐릭터가 움직이는 기능이 아직 구현이 안됨.
-    /// 그리고 사망했을때 갑자기 캐릭터가 오른쪽으로 날아가는 버그가 존재. 리지드바디 velocity 와 position의 x 값이 동결이 안됨.
     /// </summary>
     public IEnumerator Death()
     {
         Debug.Log("사망");
         isDeath = true;
+        playerInput.enabled = false;
         playerAction.enabled = false;
         animator.SetFloat("Course", playerAction.course);
         animator.SetTrigger("Death");
@@ -97,11 +100,14 @@ public class PlayerLife : MonoBehaviour
         gameOverImage.gameObject.SetActive(true);
         Debug.Log("아무키");
 
-        yield return new WaitUntil(() => anyKey);
+        yield return new WaitUntil(() => gameOverAnyKey || gameOverAnyMouseKey_R || gameOverAnyMouseKey_L);
         Debug.Log("재시작");
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
+    /// <summary>
+    /// 게임 오버 시 아무키 입력 받아 게임 다시 시작.
+    /// </summary>
     private void PlayerDeathMoveStop()
     {
         if (isDeath)

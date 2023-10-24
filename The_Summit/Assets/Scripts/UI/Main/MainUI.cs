@@ -24,7 +24,7 @@ public class MainUI : MonoBehaviour
 
     private void Update()
     {
-        MainUI_InputKey();
+        MainUIActiveKey();
         MainUIActivate();
         UpdateLifeCountUI();
     }
@@ -32,7 +32,7 @@ public class MainUI : MonoBehaviour
     /// <summary>
     /// 메인씬 메뉴창 실헹 키 저장 함수
     /// </summary>
-    private void MainUI_InputKey()
+    private void MainUIActiveKey()
     {
         mainUIKey = Input.GetKeyDown(KeyCode.Escape);
     }
@@ -57,6 +57,7 @@ public class MainUI : MonoBehaviour
     public void ReturnToTile()
     {
         Debug.Log("타이틀 씬으로 이동");
+        Time.timeScale = 1;
         SceneManager.LoadScene(0);
     }
 
@@ -73,8 +74,6 @@ public class MainUI : MonoBehaviour
     /// <summary>
     /// 플레이어 lifeCount의 값이 현재 화면에 출력되고 있는 값(lifeCountUINum)과
     /// 비교하여 달라졌을때 lifeCountUINum 값 업데이트.
-    /// switch 문으로도 가능 할듯? 조건은 case 1에 값이 같으면 break,
-    /// 그 외의 조건 = 값이 다르면 = difault 에 if 에 있는거 실행.
     /// </summary>
     private void UpdateLifeCountUI()
     {

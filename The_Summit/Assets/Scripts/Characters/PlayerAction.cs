@@ -44,6 +44,9 @@ public class PlayerAction : MonoBehaviour
         IsStanding();
     }
 
+    /// <summary>
+    /// 이동 이벤트 구독.
+    /// </summary>
     private void PlayerActionInputStorage()
     {
         playerInput.OnWalkRight += PlayerWalking_R;
@@ -75,7 +78,7 @@ public class PlayerAction : MonoBehaviour
     }
 
     /// <summary>
-    /// 걷기 조건 검사. 땅에 있어야 하고 키 A 혹은 D를 입력해야 한다.
+    /// 걷기 조건 검사. 땅에 있어야 하고 뛰지 않은 상태여야 한다.
     /// </summary>
     private bool AvailableWalk
     {
@@ -86,7 +89,7 @@ public class PlayerAction : MonoBehaviour
     }
 
     /// <summary>
-    /// 뛰기 조건. 걷기 조건이 선행되어야 하고 키 왼쪽 shift 키를 입력해야 한다.
+    /// 뛰기 조건. 걷기 조건이 선행되어야 하고 키 왼쪽 shift 키를 입력해야 하고 땅에 있어야 하고 점프하지 않는 상태여야 한다.
     /// </summary>
     private bool AvailableRun
     {
@@ -97,7 +100,7 @@ public class PlayerAction : MonoBehaviour
     }
 
     /// <summary>
-    /// 캐릭터가 땅에 있어야 하고 키 space 바를 입력해야 점프 가능.            
+    /// 캐릭터가 땅에 있어야 하고 점프를 하지 않은 상태여야 한다.            
     /// </summary>
     private bool AvailableJump
     {
@@ -113,17 +116,18 @@ public class PlayerAction : MonoBehaviour
     private void IsGround()
     {
         isGround = AvailableGround;
+        ani.SetBool("isGround", isGround);
     }
 
     /// <summary>
-    /// 스탠딩 상태 즉 모든 입력을 받고 있지 않는 상태일 때 캐릭터는 움직이지 않아야 한다. 움직임 봉쇄 처리 함수.
+    /// 스탠딩 상태
     /// </summary>
     private void IsStanding()
     {
         if (AvailableStanding)
         {
-            ani.SetFloat("Course", course);
             ani.SetTrigger("Standing");
+            ani.SetFloat("Course", course);
             Debug.Log("스탠딩");
         }
     }
@@ -136,18 +140,16 @@ public class PlayerAction : MonoBehaviour
         if (AvailableWalk && walkRight && !run)
         {
             course = 1f;
-            ani.SetFloat("Course", course);
             ani.SetTrigger("Walking");
-            // transform.Translate(Vector2.right * walkingSpeed * Time.deltaTime);
+            ani.SetFloat("Course", course);
             rigidbody2d.velocity = Vector2.right * walkingSpeed;
             Debug.Log("오른쪽 걷기");
         }
         else if (AvailableWalk && walkLeft && !run)
         {
             course = -1f;
-            ani.SetFloat("Course", course);
             ani.SetTrigger("Walking");
-            // transform.Translate(Vector2.left * walkingSpeed * Time.deltaTime);
+            ani.SetFloat("Course", course);
             rigidbody2d.velocity = Vector2.left * walkingSpeed;
             Debug.Log("왼쪽 걷기");
         }
@@ -158,9 +160,8 @@ public class PlayerAction : MonoBehaviour
         if (AvailableWalk)
         {
             course = 1f;
-            ani.SetFloat("Course", course);
             ani.SetTrigger("Walking");
-            // transform.Translate(Vector2.right * walkingSpeed * Time.deltaTime);
+            ani.SetFloat("Course", course);
             rigidbody2d.velocity = Vector2.right * walkingSpeed;
             Debug.Log("오른쪽 걷기");
         }
@@ -171,9 +172,8 @@ public class PlayerAction : MonoBehaviour
         if (AvailableWalk)
         {
             course = -1f;
-            ani.SetFloat("Course", course);
             ani.SetTrigger("Walking");
-            // transform.Translate(Vector2.left * walkingSpeed * Time.deltaTime);
+            ani.SetFloat("Course", course);
             rigidbody2d.velocity = Vector2.left * walkingSpeed;
             Debug.Log("왼쪽 걷기");
         }
@@ -188,23 +188,19 @@ public class PlayerAction : MonoBehaviour
         {
             Debug.Log("뛰기");
 
-            // if (walkRight)
             if (playerInput.walkRight)
             {
                 course = 1f;
-                ani.SetFloat("Course", course);
                 ani.SetTrigger("Running");
-                // transform.Translate(Vector2.right * runningSpeed * Time.deltaTime);
+                ani.SetFloat("Course", course);
                 rigidbody2d.velocity = Vector2.right * runningSpeed;
                 Debug.Log("오른쪽 뛰기");
             }
-            // else if (walkLeft)
             else if (playerInput.walkLeft)
             {
                 course = -1f;
-                ani.SetFloat("Course", course);
                 ani.SetTrigger("Running");
-                // transform.Translate(Vector2.left * runningSpeed * Time.deltaTime);
+                ani.SetFloat("Course", course);
                 rigidbody2d.velocity = Vector2.left * runningSpeed;
                 Debug.Log("왼쪽 뛰기");
             }
@@ -219,6 +215,8 @@ public class PlayerAction : MonoBehaviour
         if (AvailableJump)
         {
             isJuming = true;
+            ani.SetTrigger("Jumping");
+            ani.SetFloat("Course", course);
             rigidbody2d.AddForce(jumpForce * Vector2.up, ForceMode2D.Impulse);
             Debug.Log("점프");
         }
