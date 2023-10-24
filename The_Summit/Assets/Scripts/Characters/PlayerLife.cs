@@ -6,7 +6,6 @@ using UnityEngine.SceneManagement;
 
 public class PlayerLife : MonoBehaviour
 {
-    [SerializeField] private PlayerInput playerInput;
     [SerializeField] private PlayerAction playerAction;
     [SerializeField] private Rigidbody2D rigi2d;
     [SerializeField] private SpriteRenderer spriteRenderer;
@@ -36,7 +35,6 @@ public class PlayerLife : MonoBehaviour
 
     void Awake()
     {
-        playerInput = GetComponent<PlayerInput>();
         playerAction = GetComponent<PlayerAction>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
@@ -90,7 +88,6 @@ public class PlayerLife : MonoBehaviour
     {
         Debug.Log("»ç¸Á");
         isDeath = true;
-        playerInput.enabled = false;
         playerAction.enabled = false;
         animator.SetFloat("Course", playerAction.course);
         animator.SetTrigger("Death");

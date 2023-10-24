@@ -44,8 +44,9 @@ public class MainUI : MonoBehaviour
     {
         if (mainUIKey)
         {
+            Time.timeScale = 0.1f;
             mainUIObject.SetActive(true);
-            Time.timeScale = 0;
+            
             Debug.Log("Esc 메뉴창 활성화");
         }
     }
@@ -64,8 +65,8 @@ public class MainUI : MonoBehaviour
     /// </summary>
     public void ReturnToGame()
     {
-        mainUIObject.SetActive(false);
         Time.timeScale = 1;
+        mainUIObject.SetActive(false);
         Debug.Log("게임 계속 진행");
     }
 

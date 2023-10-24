@@ -1,14 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.NetworkInformation;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerInput : MonoBehaviour
 {
-    //// 입력받은 키를 저장할 변수
-    //private KeyCode keyWalkRight = KeyCode.D;
-    //private KeyCode keyWalkLeft = KeyCode.A;
-    //private KeyCode keyRun = KeyCode.LeftShift;
-    //private KeyCode keyJump = KeyCode.Space;
+    [SerializeField] public delegate void WalkRight();
+    [SerializeField] public delegate void WalkLeft();
+    [SerializeField] public delegate void Run();
+    [SerializeField] public delegate void Jump();
+    [SerializeField] public event WalkRight OnWalkRight;
+    [SerializeField] public event WalkLeft OnWalkLeft;
+    [SerializeField] public event Run OnRun;
+    [SerializeField] public event Jump OnJump;
 
     /// <summary>
     /// 입력하는 키의 값을 받아 저장. 활성화 하는지 안하는지 bool로 구별.
@@ -21,11 +26,31 @@ public class PlayerInput : MonoBehaviour
     void Update()
     {
         PlayerInputKey();
+
+        if (walkRight && !jump)
+        {
+            Debug.Log("키 오른쪽 걷기");
+            OnWalkRight.Invoke();
+        }
+        else if (walkLeft && !jump)
+        {
+            Debug.Log("키 왼쪽 걷기");
+            OnWalkLeft.Invoke();
+        }
+
+        if (run)
+        {
+            Debug.Log("키 뛰기");
+            OnRun.Invoke();
+        }
+
+        if (jump)
+        {
+            Debug.Log("키 점프");
+            OnJump.Invoke();
+        }
     }
 
-    /// <summary>
-    /// 지속적으로 키를 입력받아 초기화를 하는 함수.
-    /// </summary>
     private void PlayerInputKey()
     {
         walkRight = Input.GetKey(KeyCode.D);
