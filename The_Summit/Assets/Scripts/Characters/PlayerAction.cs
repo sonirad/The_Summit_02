@@ -5,14 +5,6 @@ using UnityEngine.EventSystems;
 
 public class PlayerAction : MonoBehaviour
 {
-    /// <summary>
-    /// 입력하는 키의 값을 받아 저장. 활성화 하는지 안하는지 bool로 구별.
-    /// </summary>
-    [HideInInspector] public bool walkRight { get; private set; }
-    [HideInInspector] public bool walkLeft { get; private set; }
-    [HideInInspector] public bool run { get; private set; }
-    [HideInInspector] public bool jump { get; private set; }
-
     [Tooltip("걷는 속도")]
     [SerializeField] private float walkingSpeed;
     [Tooltip("뛰는 속도")]
@@ -41,7 +33,6 @@ public class PlayerAction : MonoBehaviour
     private void Update()
     {
         IsGround();
-        IsStanding();
     }
 
     /// <summary>
@@ -53,6 +44,7 @@ public class PlayerAction : MonoBehaviour
         playerInput.OnWalkLeft += PlayerWalking_L;
         playerInput.OnRun += PlayerRunning;
         playerInput.OnJump += PlayerJumping;
+        playerInput.OnStanding += PlayerStanding;
     }
 
     /// <summary>
@@ -73,7 +65,7 @@ public class PlayerAction : MonoBehaviour
     {
         get
         {
-            return isGround && !playerInput.walkRight && !playerInput.walkLeft && !playerInput.run && !playerInput.jump;
+            return isGround;
         }
     }
 
@@ -84,7 +76,7 @@ public class PlayerAction : MonoBehaviour
     {
         get
         {
-            return isGround && !playerInput.run && !isJuming;
+            return isGround && !isJuming;
         }
     }
 
@@ -95,7 +87,7 @@ public class PlayerAction : MonoBehaviour
     {
         get
         {
-            return (playerInput.walkRight || playerInput.walkLeft) && isGround && !isJuming;
+            return isGround && !isJuming;
         }
     }
 
@@ -117,44 +109,30 @@ public class PlayerAction : MonoBehaviour
     {
         isGround = AvailableGround;
         ani.SetBool("isGround", isGround);
+
+        if (isGround && !playerInput.jump)
+        {
+            isJuming = false;
+        }
     }
 
     /// <summary>
     /// 스탠딩 상태
     /// </summary>
-    private void IsStanding()
+    private void PlayerStanding()
     {
         if (AvailableStanding)
         {
             ani.SetTrigger("Standing");
             ani.SetFloat("Course", course);
             Debug.Log("스탠딩");
+            rigidbody2d.velocity = Vector2.zero;
         }
     }
 
     /// <summary>
-    /// 걷기 함수
+    /// 오른쪽 걷기 함수
     /// </summary>
-    public void PlayerWalking()
-    {
-        if (AvailableWalk && walkRight && !run)
-        {
-            course = 1f;
-            ani.SetTrigger("Walking");
-            ani.SetFloat("Course", course);
-            rigidbody2d.velocity = Vector2.right * walkingSpeed;
-            Debug.Log("오른쪽 걷기");
-        }
-        else if (AvailableWalk && walkLeft && !run)
-        {
-            course = -1f;
-            ani.SetTrigger("Walking");
-            ani.SetFloat("Course", course);
-            rigidbody2d.velocity = Vector2.left * walkingSpeed;
-            Debug.Log("왼쪽 걷기");
-        }
-    }
-
     private void PlayerWalking_R()
     {
         if (AvailableWalk)
@@ -167,6 +145,9 @@ public class PlayerAction : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 왼쪽 걷기 함수
+    /// </summary>
     private void PlayerWalking_L()
     {
         if (AvailableWalk)
@@ -219,11 +200,6 @@ public class PlayerAction : MonoBehaviour
             ani.SetFloat("Course", course);
             rigidbody2d.AddForce(jumpForce * Vector2.up, ForceMode2D.Impulse);
             Debug.Log("점프");
-        }
-
-        if (isGround && !jump)
-        {
-            isJuming = false;
         }
     }
 }
