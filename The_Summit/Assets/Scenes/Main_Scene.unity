@@ -10880,7 +10880,7 @@ Transform:
   m_GameObject: {fileID: 1606717542}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.49, y: -0.6900003, z: -10}
+  m_LocalPosition: {x: -8.49, y: -0.6930003, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -12955,13 +12955,29 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 398448252836751564, guid: 97eadf037ac17d4428190e3c2e0dadd2, type: 3}
+      propertyPath: m_Size.y
+      value: 0.5440676
+      objectReference: {fileID: 0}
+    - target: {fileID: 398448252836751564, guid: 97eadf037ac17d4428190e3c2e0dadd2, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.20792973
+      objectReference: {fileID: 0}
+    - target: {fileID: 398448252836751564, guid: 97eadf037ac17d4428190e3c2e0dadd2, type: 3}
+      propertyPath: m_SpriteTilingProperty.newSize.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 398448252836751564, guid: 97eadf037ac17d4428190e3c2e0dadd2, type: 3}
+      propertyPath: m_SpriteTilingProperty.newSize.y
+      value: 1.71875
+      objectReference: {fileID: 0}
     - target: {fileID: 1889517729094365175, guid: 97eadf037ac17d4428190e3c2e0dadd2, type: 3}
       propertyPath: m_LocalPosition.x
       value: -8.49
       objectReference: {fileID: 0}
     - target: {fileID: 1889517729094365175, guid: 97eadf037ac17d4428190e3c2e0dadd2, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.49
+      value: -3.493
       objectReference: {fileID: 0}
     - target: {fileID: 1889517729094365175, guid: 97eadf037ac17d4428190e3c2e0dadd2, type: 3}
       propertyPath: m_LocalPosition.z
@@ -12994,6 +13010,14 @@ PrefabInstance:
     - target: {fileID: 1889517729094365175, guid: 97eadf037ac17d4428190e3c2e0dadd2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2479779407165288137, guid: 97eadf037ac17d4428190e3c2e0dadd2, type: 3}
+      propertyPath: m_Size.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2479779407165288137, guid: 97eadf037ac17d4428190e3c2e0dadd2, type: 3}
+      propertyPath: m_Size.y
+      value: 1.71875
       objectReference: {fileID: 0}
     - target: {fileID: 7469218110842795202, guid: 97eadf037ac17d4428190e3c2e0dadd2, type: 3}
       propertyPath: gameOverImage

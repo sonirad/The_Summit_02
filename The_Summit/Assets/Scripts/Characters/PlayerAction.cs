@@ -21,12 +21,14 @@ public class PlayerAction : MonoBehaviour
     public Rigidbody2D rigidbody2d;
     [SerializeField] private Animator ani;
     [SerializeField] private PlayerInput playerInput;
+    [SerializeField] private BoxCollider2D boxCollider2d;
 
     void Start()
     {
         rigidbody2d = GetComponent<Rigidbody2D>();
         ani = GetComponent<Animator>();
         playerInput = GetComponent<PlayerInput>();
+        boxCollider2d = GetComponent <BoxCollider2D>();
         PlayerActionInputStorage();
     }
 
@@ -48,16 +50,17 @@ public class PlayerAction : MonoBehaviour
     }
 
     /// <summary>
-    /// 지면 충돌 검사. 지면에 충돌하면 참 리턴.
+    /// 콜라이더 양 옆에서 지면 충돌 검사. 둘 중 하나가 지면 충돌하면 참 리턴.
     /// </summary>
     private bool AvailableGround
     {
         get
         {
-            return Physics2D.Raycast(transform.position, Vector2.down, 0.5f, 1 << LayerMask.NameToLayer("Ground"));
+            return Physics2D.Raycast(new Vector2(boxCollider2d.bounds.center.x - boxCollider2d.bounds.extents.x, boxCollider2d.bounds.center.y), Vector2.down, 0.3f, 1 << LayerMask.NameToLayer("Ground")) ||
+                Physics2D.Raycast(new Vector2(boxCollider2d.bounds.center.x + boxCollider2d.bounds.extents.x, boxCollider2d.bounds.center.y), Vector2.down, 0.3f, 1 << LayerMask.NameToLayer("Ground"));
         }
     }
-
+    
     /// <summary>
     /// 현재 플레이어가 스탠딩 상태 인지 검사. 땅에 있어야 하고 어떤 키의 입력도 받지 않아야 한다.
     /// </summary>

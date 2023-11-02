@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
-using Unity.VisualScripting;
 
 public class MainUI : MonoBehaviour
 {
@@ -44,7 +43,7 @@ public class MainUI : MonoBehaviour
     {
         if (mainUIKey)
         {
-            Time.timeScale = 0.1f;
+            Time.timeScale = 0f;
             mainUIObject.SetActive(true);
             
             Debug.Log("Esc 메뉴창 활성화");
