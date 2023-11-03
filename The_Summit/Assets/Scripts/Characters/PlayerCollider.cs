@@ -19,7 +19,8 @@ public class PlayerCollider : MonoBehaviour
     }
 
     /// <summary>
-    /// 지속적을 충돌히거 있는 오브젝트의 레이어를 검사하여 장애물인지 검사하여 장애물이면 데지미를 주고
+    /// 지속적을 충돌히거 있는 오브젝트의 레이어를 검사하여 장애물인지 검사하고
+    /// 플레이어 라이프가 0이 아니면 데지미를 주고
     /// 동시에 라이프 카운트가 0이 되면 사망 판정을 하여 씬을 재시작하는 코루틴 함수.
     /// 콜라이더 엔터에 호출.
     /// </summary>
@@ -27,7 +28,7 @@ public class PlayerCollider : MonoBehaviour
     /// <returns></returns>
     private void AvailableDamangeAndDeath(Collider2D ob)
     {
-        if (ob.gameObject.layer == 7)
+        if (ob.gameObject.layer == 7 && PlayerLife.lifeCount > 0)
         {
             Debug.Log("장애물");
             StartCoroutine(playerLife.Damage());
