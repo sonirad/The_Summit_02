@@ -27,7 +27,7 @@ public class PlayerInput : MonoBehaviour
     [HideInInspector] public bool jump { get; private set; }
 
     [SerializeField] private Rigidbody2D rig2d;
-    [SerializeField] private bool isJump;
+    private bool isJump;
 
     private void Awake()
     {
@@ -63,8 +63,9 @@ public class PlayerInput : MonoBehaviour
             OnRun.Invoke();
         }
 
-        else if(!walkRight && !walkLeft && !run && !jump && !isJump)
+        else if(!walkRight && !walkLeft && !run && !jump)
         {
+            Debug.Log("Å° ½ºÅÄµù");
             OnStanding.Invoke();
         }
     }
